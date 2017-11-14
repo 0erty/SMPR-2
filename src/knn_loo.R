@@ -32,16 +32,17 @@ loo <- function(points, classes) {
     }
   }
   l <- l / size_y
-  plot(1:length(l), l, type = "l")
+  plot(1:length(l), l, type = "l", main="LOO")
   optimal_k <- which.min(l)
   points(optimal_k, l[optimal_k], pch = 20, col = "blue")
+  text(optimal_k, l[optimal_k]+0.1, labels = paste("K=", optimal_k, " | LOO = ", round(l[optimal_k], 2)), pos = 4, col = "blue")
   return(optimal_k)
 }
 
 colors <- c("setosa" = "red", "versicolor" = "green3","virginica" = "blue")
 par(mfrow = c(1, 2))
 optimal_k <- loo(petals, classes)
-plot(petals, bg = colors[iris$Species], pch = 21, asp = 1)
+plot(petals, bg = colors[iris$Species], pch = 21, asp = 1, main="Optimal KNN")
 for (x in seq(1, 7, 0.1)) 
 {
   for (y in seq(-1, 3, 0.1)) 
