@@ -7,6 +7,11 @@ euclidean_distance <- function(u, v) {
   sqrt(sum((u-v)^2))
 }
 
+plot.limits = function(arr, deviation = 0) {
+    c(min(arr) - deviation, max(arr) + deviation)
+}
+
+
 #  функция применяющая функцию расстояния на все объекты выборки и заданную
 # точку z
 dist_points <- function(xl, z, dist_function) {
@@ -23,7 +28,40 @@ weights_sum <- function(class, weights){
 
 
 
+kernels.indicator = function(r) +(abs(r) <= 1)
 
+# прямоугольное
+kernels.Rectangle = function(r) {
+    0.5 * kernels.indicator(r)
+}
+
+# треугольное
+kernels.Triangle = function(r) {
+    (1 - abs(r)) * kernels.indicator(r)
+}
+
+# биквадратичное
+kernels.Biquadratic = function(r) {
+    (15 / 16) * (1 - r^2)^2 * kernels.indicator(r)
+}
+
+# параболическое
+kernels.Parabolic = function(r) {
+    (3 / 4) * (1 - r^2) * kernels.indicator(r)
+}
+
+# триквадратичное 
+kernels.Triquadratic = function(r) {
+  (35 / 32) * (1 - r^2)^3 * kernels.indicator(r)
+}
+
+# Гаусовское
+kernels.Gaus <- function(r){
+  (1 / sqrt(2*pi)) * exp(1)^((-1/2)*r^2)
+}
+
+#ALL
+kernels = list("G" = kernels.Gaus, "TQ" = kernels.Triquadratic, "R" = kernels.Rectangle, "T" = kernels.Triangle, "Q" = kernels.Parabolic, "E" = kernels.Biquadratic)
 
 # ФУНКЦИЯ ДЛЯ GGPLOT2
 # Фунуция для размещения нескольких графиков http://www.peterhaschke.com/r/2013/04/24/MultiPlot.html
